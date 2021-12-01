@@ -11,7 +11,7 @@ def input_students
 
   # Get the first name
   puts "Please enter the name of the student"
-  puts "To finish, just hit return"
+  puts "To finish, just hit return twice"
   name = gets.chomp
 
   while !name.empty? do
@@ -41,8 +41,8 @@ end
 
 # prints the header
 def print_header
-  puts "The students of Villains Academy"
-  puts "---------------"
+  puts "The students of Villains Academy".center(50)
+  puts "---------------".center(50)
 end
 
 # prints students' names
@@ -63,20 +63,24 @@ def print(student_profiles)
   # Modify to_print to contain only names 12 characters long
   to_print.delete_if {|student_profile| student_profile[:name].length >= 12}
 
+  print_header
+
   # Rewrite above each loop into a while loop
   i = 0
   while i < to_print.length
-    puts "#{i + 1}. #{to_print[i][:name]}, #{to_print[i][:height]} tall, from #{to_print[i][:cob]} (#{to_print[i][:cohort]} cohort) likes #{to_print[i][:hobbies]}."
+    description = ["#{i + 1}. #{to_print[i][:name]} (#{to_print[i][:cohort]})", "COB: #{to_print[i][:cob]}", "Height: #{to_print[i][:height]}", "Hobbies: #{to_print[i][:hobbies]}"]
+    description.each {|line| 
+      puts line.center(50)
+    }
     i += 1
   end
 end
 
 # prints the footer
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  puts "Overall, we have #{names.count} great students".center(50)
 end
 
 students = input_students
-print_header
 print(students)
 print_footer(students)
