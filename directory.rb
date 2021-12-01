@@ -43,9 +43,16 @@ def print(student_profiles)
   # Modify to_print to contain only names 12 characters long
   to_print.delete_if {|student_profile| student_profile[:name].length >= 12}
 
-  to_print.each_with_index { |student_profile, index|
-      puts "#{index + 1}. #{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
-  }
+  # to_print.each_with_index { |student_profile, index|
+  #     puts "#{index + 1}. #{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
+  # }
+
+  # Rewrite above each loop into a while loop
+  i = 0
+  while i < to_print.length
+    puts "#{i + 1}. #{to_print[i][:name]} (#{to_print[i][:cohort]} cohort)"
+    i += 1
+  end
 end
 
 # prints the footer
