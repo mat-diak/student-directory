@@ -13,12 +13,11 @@ def input_students
     # Add the name as part of hash to students
     students << {name: name, cohort: :november}
     puts "Now we have #{students.count} students"
-    # Get a name new
+    # Get a new name
     name = gets.chomp
   end
   students
 end
-
 
 # prints the header
 def print_header
@@ -27,9 +26,22 @@ def print_header
 end
 
 # prints students' names
-def print(names)
-  names.each { |student_profile|
-    puts "#{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
+def print(student_profiles)
+  # Create a printing array
+  to_print = student_profiles
+  
+  # Asks if user wants to print only names starting with a specific character
+  puts "To print names only beginning with a character, type character"
+  puts "To print all names press return twice"
+  character = gets.chomp
+
+  # Modify to_print to contain only names with specific character
+  if character != ""
+    to_print.delete_if {|student_profile| student_profile[:name][0].upcase != character.upcase}
+  end
+
+  to_print.each_with_index { |student_profile, index|
+    puts "#{index + 1}. #{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
   }
 end
 
