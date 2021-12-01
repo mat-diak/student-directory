@@ -32,7 +32,7 @@ def print(student_profiles)
   
   # Asks if user wants to print only names starting with a specific character
   puts "To print names only beginning with a character, type character"
-  puts "To print all names press return twice"
+  puts "To print all names press return"
   character = gets.chomp
 
   # Modify to_print to contain only names with specific character
@@ -40,8 +40,11 @@ def print(student_profiles)
     to_print.delete_if {|student_profile| student_profile[:name][0].upcase != character.upcase}
   end
 
+  # Modify to_print to contain only names 12 characters long
+  to_print.delete_if {|student_profile| student_profile[:name].length >= 12}
+
   to_print.each_with_index { |student_profile, index|
-    puts "#{index + 1}. #{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
+      puts "#{index + 1}. #{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
   }
 end
 
