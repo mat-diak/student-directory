@@ -1,17 +1,37 @@
 # asks user for students' names and creates a hash {name: ..., cohort: ...}
 def input_students
-  puts "Please enter the name of the student"
-  puts "To finish, just hit return twice"
-  
   # Create an empty array to store students
   students = []
 
+  # Methods asks for input
+  def ask_for(subject, name)
+    yield
+    gets.chomp
+  end
+
   # Get the first name
+  puts "Please enter the name of the student"
+  puts "To finish, just hit return"
   name = gets.chomp
 
   while !name.empty? do
+    # Ask for hobbies
+    hobbies = ask_for("hobby", name) {puts "What are #{name}'s hobbies? Separate answers by ,"}
+    # Ask for country of birth
+    cob = ask_for("country of birth", name) {puts "What is #{name}'s country of birth?"}
+    # Ask for height
+    height = ask_for("height", name) {puts "What is #{name}'s height?"}
+    
     # Add the name as part of hash to students
-    students << {name: name, cohort: :november}
+    students << {
+      name: name,
+      cohort: :november,
+      hobbies: hobbies,
+      cob: cob,
+      height: height
+    }
+
+    # Puts updated count of students
     puts "Now we have #{students.count} students"
     # Get a new name
     name = gets.chomp
@@ -43,14 +63,10 @@ def print(student_profiles)
   # Modify to_print to contain only names 12 characters long
   to_print.delete_if {|student_profile| student_profile[:name].length >= 12}
 
-  # to_print.each_with_index { |student_profile, index|
-  #     puts "#{index + 1}. #{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
-  # }
-
   # Rewrite above each loop into a while loop
   i = 0
   while i < to_print.length
-    puts "#{i + 1}. #{to_print[i][:name]} (#{to_print[i][:cohort]} cohort)"
+    puts "#{i + 1}. #{to_print[i][:name]}, #{to_print[i][:height]} tall, from #{to_print[i][:cob]} (#{to_print[i][:cohort]} cohort) likes #{to_print[i][:hobbies]}."
     i += 1
   end
 end
