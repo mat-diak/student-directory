@@ -6,7 +6,8 @@ def input_students
   # Methods asks for input
   def ask_for(subject, name)
     yield
-    gets.chomp
+    input = gets.chomp
+    input == "" ? input = "unknown" : input
   end
 
   # Get the first name
@@ -15,6 +16,8 @@ def input_students
   name = gets.chomp
 
   while !name.empty? do
+    # Ask for cohort
+    cohort = ask_for("cohort", name) {puts "Which cohort is #{name} in?"}
     # Ask for hobbies
     hobbies = ask_for("hobby", name) {puts "What are #{name}'s hobbies? Separate answers by ,"}
     # Ask for country of birth
@@ -25,7 +28,7 @@ def input_students
     # Add the name as part of hash to students
     students << {
       name: name,
-      cohort: :november,
+      cohort: cohort,
       hobbies: hobbies,
       cob: cob,
       height: height
