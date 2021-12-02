@@ -1,5 +1,5 @@
 # asks user for students' names and creates a hash {name: ..., cohort: ...}
-def input_students
+def input_students(students)
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
 
@@ -15,7 +15,6 @@ def input_students
   end
   students
 end
-
 
 # prints the header
 def print_header
@@ -47,7 +46,7 @@ def interactive_menu
     # do what user has asked
     case selection
     when "1"
-      students = input_students
+      students = input_students(students)
     when "2"
       print_header
       print(students)
