@@ -130,13 +130,17 @@ def print_option(students)
   end
 end
 
-def interactive_menu
-  students = []
-  loop do
-    # 1. print the menu and ask the user what to do
+def print_menu
+  # 1. print the menu and ask the user what to do
     puts "1. Input the students"
     puts "2. Show the students"
     puts "9. Exit"
+end
+
+def interactive_menu
+  students = []
+  loop do
+    print_menu
     # 2. read the input and save it into a variable
     selection = gets.chomp
     # 3. do what the user has asked
