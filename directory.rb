@@ -5,16 +5,27 @@ def input_students
 
   # Methods asks for input
   def ask_for(subject, name)
-    yield
+    yield 
     input = gets.chomp
+    if subject == "cohort"
+      check_if_month(input) ? input : ask_for(subject, name) {puts "Type month!"}
+    end
     input == "" ? input = "unknown" : input
   end
+
+  # Check if month
+  def check_if_month(name)
+    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    months.map{ |month| month.upcase }.include? name.upcase
+  end
+
 
   # Get the first name
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
   name = gets.chomp
 
+  # If name give, ask for more details
   while !name.empty? do
     # Ask for cohort
     cohort = ask_for("cohort", name) {puts "Which cohort is #{name} in?"}
@@ -28,7 +39,7 @@ def input_students
     # Add the name as part of hash to students
     students << {
       name: name,
-      cohort: cohort,
+      cohort: cohort.to_sym,
       hobbies: hobbies,
       cob: cob,
       height: height
