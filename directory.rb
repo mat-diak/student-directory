@@ -2,9 +2,6 @@
 def input_students
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
-  
-  # Create an empty array to store students
-  students = []
 
   # Get the first name
   name = gets.chomp
@@ -38,7 +35,29 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+def interactive_menu
+  students = []
+  loop do
+    # print the menu
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # read the input and save it into a variable
+    selection = gets.chomp
+    # do what user has asked
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print(students)
+      print_footer(students)
+    when "9"
+      exit
+    else
+      puts "-- Incorrect input. Type a number! --"
+    end
+  end
+end
+
+interactive_menu
