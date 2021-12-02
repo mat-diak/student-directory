@@ -88,19 +88,50 @@ def print(student_profiles)
     }
     i += 1
   end
+  print_footer(student_profiles)
 end
 
 # prints cohorts
-def print_cohorts(students)
-  # Map student and cohort and add it to a new hash of cohort: [array of students in the cohort]
+def print_cohort(students_profiles, which_cohort)
+  # Select students who match the cohort
+  selection = students_profiles.select { |student_profile| student_profile[:cohort] == which_cohort.to_sym }
+  puts "#{which_cohort} cohort members:"
+  selection.each { |student_profile|
+    puts "#{student_profile[:name]}"
+  }
 end
 
 # prints the footer
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(50)
+  if names.count == 1
+    puts "Overall, we have #{names.count} great student".center(50)
+  else
+    puts "Overall, we have #{names.count} great students".center(50)
+  end
 end
 
-students = input_students
-p students
-print(students)
-print_footer(students)
+def print_option(students)
+  while true do
+    puts "Type 'all' to see all students or type 'cohort' to see a cohort list"
+    puts "type 'stop' to end"
+    input = gets.chomp
+    if input == "stop"
+      break
+    elsif input == "cohort"
+      puts "Which cohort to print?"
+      cohort_to_print = gets.chomp
+      print_cohort(students, cohort_to_print.to_sym)
+    elsif input == "all"
+      print(students)
+    else
+      puts "Spelling mistake or cohort does not exist."
+    end
+  end
+end
+
+def run_script
+  students = input_students
+  print_option(students)
+end
+
+run_script
