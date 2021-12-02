@@ -7,9 +7,6 @@ def input_students
   def ask_for(subject, name)
     yield 
     input = gets.chomp
-    if subject == "cohort"
-      check_if_month(input) ? input : ask_for(subject, name) {puts "Type month!"}
-    end
     input == "" ? input = "unknown" : input
   end
 
@@ -29,6 +26,9 @@ def input_students
   while !name.empty? do
     # Ask for cohort
     cohort = ask_for("cohort", name) {puts "Which cohort is #{name} in?"}
+    until check_if_month(cohort)
+      cohort = ask_for("cohort", name) {puts "Incorrect input. Type in month"}
+    end
     # Ask for hobbies
     hobbies = ask_for("hobby", name) {puts "What are #{name}'s hobbies? Separate answers by ,"}
     # Ask for country of birth
@@ -90,11 +90,17 @@ def print(student_profiles)
   end
 end
 
+# prints cohorts
+def print_cohorts(students)
+  # Map student and cohort and add it to a new hash of cohort: [array of students in the cohort]
+end
+
 # prints the footer
 def print_footer(names)
   puts "Overall, we have #{names.count} great students".center(50)
 end
 
 students = input_students
+p students
 print(students)
 print_footer(students)
