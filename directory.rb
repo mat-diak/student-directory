@@ -1,8 +1,5 @@
 # asks user for students' names and creates a hash {name: ..., cohort: ...}
-def input_students
-  # Create an empty array to store students
-  students = []
-
+def input_students(students)
   # Methods asks for input
   def ask_for(subject, name)
     yield 
@@ -133,9 +130,31 @@ def print_option(students)
   end
 end
 
+def interactive_menu
+  students = []
+  loop do
+    # 1. print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # 2. read the input and save it into a variable
+    selection = gets.chomp
+    # 3. do what the user has asked
+    case selection
+    when "1"
+      students = input_students(students)
+    when "2"
+      print_option(students)
+    when "9"
+      exit
+    else
+      puts "-- Incorrect input. Try again --"
+    end
+  end  
+end
+
 def run_script
-  students = input_students
-  print_option(students)
+  interactive_menu
 end
 
 run_script
