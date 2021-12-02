@@ -111,20 +111,24 @@ def print_footer(names)
 end
 
 def print_option(students)
-  while true do
-    puts "Type 'all' to see all students or type 'cohort' to see a cohort list"
-    puts "type 'stop' to end"
-    input = gets.chomp
-    if input == "stop"
-      break
-    elsif input == "cohort"
-      puts "Which cohort to print?"
-      cohort_to_print = gets.chomp
-      print_cohort(students, cohort_to_print.to_sym)
-    elsif input == "all"
-      print(students)
-    else
-      puts "Spelling mistake or cohort does not exist."
+  if students.length == 0
+    puts "There are no students on the list."
+  else
+    while true do
+      puts "Type 'all' to see all students or type 'cohort' to see a cohort list"
+      puts "type 'stop' to end"
+      input = gets.chomp
+      if input == "stop"
+        break
+      elsif input == "cohort"
+        puts "Which cohort to print?"
+        cohort_to_print = gets.chomp
+        print_cohort(students, cohort_to_print.to_sym)
+      elsif input == "all"
+        print(students)
+      else
+        puts "Spelling mistake or cohort does not exist."
+      end
     end
   end
 end
