@@ -1,3 +1,5 @@
+@students = []
+
 # asks user for students' names and creates a hash {name: ..., cohort: ...}
 def input_students(students)
   # Methods asks for input
@@ -57,7 +59,7 @@ def print_header
 end
 
 # prints students' names
-def print(student_profiles)
+def print_students_list(student_profiles)
   # Create a printing array
   to_print = student_profiles
   
@@ -122,7 +124,7 @@ def print_option(students)
         cohort_to_print = gets.chomp
         print_cohort(students, cohort_to_print.to_sym)
       elsif input == "all"
-        print(students)
+        print_students_list(students)
       else
         puts "Spelling mistake or cohort does not exist."
       end
@@ -137,23 +139,23 @@ def print_menu
     puts "9. Exit"
 end
 
+def process(selection)
+  case selection
+  when "1"
+    students = input_students(@students)
+  when "2"
+    print_option(@students)
+  when "9"
+    exit
+  else
+    puts "-- Incorrect input. Try again --"
+  end
+end
+
 def interactive_menu
-  students = []
   loop do
     print_menu
-    # 2. read the input and save it into a variable
-    selection = gets.chomp
-    # 3. do what the user has asked
-    case selection
-    when "1"
-      students = input_students(students)
-    when "2"
-      print_option(students)
-    when "9"
-      exit
-    else
-      puts "-- Incorrect input. Try again --"
-    end
+    process(gets.chomp)
   end  
 end
 
