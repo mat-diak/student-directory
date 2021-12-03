@@ -64,12 +64,8 @@ def input_students_mode
 end
 
 def load_file(filename)
-    file = File.open(filename, "r") # Open the students.csv in read mode
-    file.readlines.each { |csv_line| # Loop through lines of students.csv; split each line at ','
-      name, cohort = csv_line.split(",")
-      add_student(name, cohort)
-    }
-    file.close # Close file
+    file_lines = File.open(filename, "r") { |file| file.readlines}
+    file_lines.each { |csv_line| name, cohort = csv_line.split(","); add_student(name, cohort) }
 end
 
 def resolve_list_conflict
