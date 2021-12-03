@@ -99,7 +99,7 @@ def save_students
 end
 
 def try_load_students
-  filename = ARGV.first # first argument from the command line
+  filename = 'students.csv'
   if filename.nil? then puts "!! File was not loaded !!"; return end
   if File.exist?(filename)
     load_students(filename)
