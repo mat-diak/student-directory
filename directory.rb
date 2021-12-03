@@ -47,6 +47,7 @@ def print_menu
   puts "--- 1. Input the students"
   puts "--- 2. Show the students"
   puts "--- 3. Save the students to students.csv"
+  puts "--- 4. Load students list from students.csv"
   puts "--- 9. Exit"
 end
 
@@ -58,6 +59,8 @@ def process(selection)
     show_students
   when "3"
     save_students
+  when "4"
+    load_students
   when "9"
     exit
   else
@@ -75,6 +78,19 @@ def save_students
     file.puts csv_line
   }
   #close file
+  file.close
+end
+
+def load_students
+  # Open the students.csv in read mode
+  file = File.open("students.csv", "r")
+  # Loop through lines of students.csv; split each line at ','
+  file.readlines.each { |csv_line| 
+    name, cohort = csv_line.split(",")
+    # Create a student_profile hash with values
+    @students << {name: name, cohort: cohort.to_sym}
+  }
+  # Close file
   file.close
 end
 
