@@ -18,6 +18,15 @@ def input_students
   @students
 end
 
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r") # Open the students.csv in read mode
+  file.readlines.each { |csv_line| # Loop through lines of students.csv; split each line at ','
+    name, cohort = csv_line.split(",")
+    @students << {name: name, cohort: cohort.to_sym} # Create a student_profile hash with values
+  }
+  file.close # Close file
+end
+
 # prints the header
 def print_header
   puts "The students of Villains Academy"
@@ -91,19 +100,6 @@ def try_load_students
     puts "#{filename} does not exist."
     exit
   end
-end
-
-def load_students(filename = "students.csv")
-  # Open the students.csv in read mode
-  file = File.open(filename, "r")
-  # Loop through lines of students.csv; split each line at ','
-  file.readlines.each { |csv_line| 
-    name, cohort = csv_line.split(",")
-    # Create a student_profile hash with values
-    @students << {name: name, cohort: cohort.to_sym}
-  }
-  # Close file
-  file.close
 end
 
 def interactive_menu
