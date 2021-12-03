@@ -25,10 +25,10 @@ def process(selection)
     puts "++ showing students ++"
     show_students
   when "3"
-    save_students
+    save_students(ask_for_filename {puts "--- Type filename to save the list to. ---"})
     puts "++ saved ++"
   when "4"
-    load_students
+    load_students(ask_for_filename {puts "--- Type filename from which to import names. ---"})
     puts "++ loaded ++"
   when "9"
     puts "++ exiting ++"
@@ -63,13 +63,37 @@ def input_students_mode
   @students
 end
 
+def load_file(filename)
+    file = File.open(filename, "r") # Open the students.csv in read mode
+    file.readlines.each { |csv_line| # Loop through lines of students.csv; split each line at ','
+      name, cohort = csv_line.split(",")
+      add_student(name, cohort)
+    }
+    file.close # Close file
+end
+
+def resolve_list_conflict
+  while true do 
+    puts "Do you wanna overwrite the current list? Y/N"
+    choice = STDIN.gets.chomp
+    break if choice.upcase == "Y" || choice.upcase == "N"
+  end
+  choice
+end
+
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r") # Open the students.csv in read mode
-  file.readlines.each { |csv_line| # Loop through lines of students.csv; split each line at ','
-    name, cohort = csv_line.split(",")
-    add_student(name, cohort)
-  }
-  file.close # Close file
+  if @students.empty? # Check if @students is empty
+    load_file(filename)
+  else
+    choice = resolve_list_conflict
+    if choice.upcase == "Y"
+      @students = []
+      load_file(filename)
+    elsif choice == "N"
+      puts "++ List was not loaded. ++"
+      return
+    end
+  end
 end
 
 def show_students
@@ -96,9 +120,9 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
-def save_students
+def save_students(filename = 'students.csv')
   #open the csv file
-  file = File.open('students.csv', "w")
+  file = File.open(filename, "w")
   #make a loop for each students to be added to the csv file in format 'name,cohort'
   @students.each { |student_profile|
     student_data = [student_profile[:name], student_profile[:cohort]]
@@ -107,6 +131,11 @@ def save_students
   }
   #close file
   file.close
+end
+
+def ask_for_filename
+  yield
+  filename = STDIN.gets.chomp
 end
 
 def try_load_students(filename = 'students.csv')
