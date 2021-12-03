@@ -19,14 +19,19 @@ end
 def process(selection)
   case selection
   when "1"
-    @students = input_students
+    puts "++ student input mode ++"
+    @students = input_students_mode
   when "2"
+    puts "++ showing students ++"
     show_students
   when "3"
     save_students
+    puts "++ saved ++"
   when "4"
     load_students
+    puts "++ loaded ++"
   when "9"
+    puts "++ exiting ++"
     exit
   else
     puts "!! Incorrect input. Type a number! !!"
@@ -37,17 +42,23 @@ def add_student(name, cohort = :november)
   @students << {name: name, cohort: cohort.to_sym} # Create a student_profile hash with values
 end
 
-# asks user for students' names and creates a hash {name: ..., cohort: ...}
-def input_students
+def print_intro
   puts "Please enter the name of the student"
   puts "To finish, just hit return twice"
-  name = STDIN.gets.chomp # Get the first name
+end
+
+def get_name
+  name = STDIN.gets.chomp # Get a name new
+end
+
+# asks user for students' names and creates a hash {name: ..., cohort: ...}
+def input_students_mode
+  print_intro
+  name = get_name
   while !name.empty? do
-    # Add the name as part of hash to students
-    add_student(name)
+    add_student(name) # Add the name as part of hash to students
     puts "Now we have #{@students.count} students"
-    # Get a name new
-    name = STDIN.gets.chomp
+    name = get_name
   end
   @students
 end
@@ -98,18 +109,16 @@ def save_students
   file.close
 end
 
-def try_load_students
-  filename = 'students.csv'
-  if filename.nil? then puts "!! File was not loaded !!"; return end
+def try_load_students(filename = 'students.csv')
+  return if filename.nil?
   if File.exist?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else
-    puts "#{filename} does not exist."
-    exit
+    puts "Auto-loading failed"
+    return
   end
 end
 
-puts ARGV.join(",")
 try_load_students
 interactive_menu
