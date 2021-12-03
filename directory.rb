@@ -7,6 +7,7 @@ def print_menu
   puts "--- 2. Show the students"
   puts "--- 3. Save the students to students.csv"
   puts "--- 4. Load students list from students.csv"
+  puts "--- 5. Print source code"
   puts "--- 9. Exit"
 end
 
@@ -31,6 +32,8 @@ def process(selection)
   when "4"
     load_students(ask_for_filename {puts "--- Type filename from which to import names. ---"})
     puts "++ loaded ++"
+  when "5"
+    puts print_source_code
   when "9"
     puts "++ exiting ++"
     exit
@@ -66,7 +69,7 @@ end
 
 def load_file(filename)
     file_lines = File.open(filename, "r") { |file| file.readlines }
-    file_lines.each { |csv_line| name, cohort = csv_line.split(","); add_student(name, cohort) }
+    file_lines.each { |csv_line| name, cohort = csv_line.split(","); add_student(name, cohort.strip) }
 end
 
 def resolve_list_conflict
@@ -119,7 +122,6 @@ end
 
 def save_students(filename = 'students.csv')
   CSV.open(filename, "wb") do |csv|
-    #make a loop for each students to be added to the csv file in format 'name,cohort'
     @students.each { |student_profile|
       csv << [student_profile[:name], student_profile[:cohort]]
     }
@@ -140,6 +142,10 @@ def try_load_students(filename = 'students.csv')
     puts "Auto-loading failed"
     return
   end
+end
+
+def print_source_code
+  puts File.read(__FILE__)
 end
 
 try_load_students
