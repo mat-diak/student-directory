@@ -64,7 +64,7 @@ def process(selection)
   when "9"
     exit
   else
-    puts "-- Incorrect input. Type a number! --"
+    puts "!! Incorrect input. Type a number! !!"
   end
 end
 
