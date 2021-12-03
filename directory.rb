@@ -6,14 +6,14 @@ def input_students
   puts "To finish, just hit return twice"
 
   # Get the first name
-  name = gets.chomp
+  name = STDIN.gets.chomp
 
   while !name.empty? do
     # Add the name as part of hash to students
     @students << {name: name, cohort: :november}
     puts "Now we have #{@students.count} students"
     # Get a name new
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
   @students
 end
@@ -81,9 +81,21 @@ def save_students
   file.close
 end
 
-def load_students
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  if filename.nil? then puts "!! File was not loaded !!"; return end
+  if File.exist?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "#{filename} does not exist."
+    exit
+  end
+end
+
+def load_students(filename = "students.csv")
   # Open the students.csv in read mode
-  file = File.open("students.csv", "r")
+  file = File.open(filename, "r")
   # Loop through lines of students.csv; split each line at ','
   file.readlines.each { |csv_line| 
     name, cohort = csv_line.split(",")
@@ -97,8 +109,9 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
+try_load_students
 interactive_menu
