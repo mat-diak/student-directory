@@ -46,6 +46,7 @@ end
 def print_menu
   puts "--- 1. Input the students"
   puts "--- 2. Show the students"
+  puts "--- 3. Save the students to students.csv"
   puts "--- 9. Exit"
 end
 
@@ -55,11 +56,26 @@ def process(selection)
     @students = input_students
   when "2"
     show_students
+  when "3"
+    save_students
   when "9"
     exit
   else
     puts "-- Incorrect input. Type a number! --"
   end
+end
+
+def save_students
+  #open the csv file
+  file = File.open('students.csv', "w")
+  #make a loop for each students to be added to the csv file in format 'name,cohort'
+  @students.each { |student_profile|
+    student_data = [student_profile[:name], student_profile[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  }
+  #close file
+  file.close
 end
 
 def interactive_menu
