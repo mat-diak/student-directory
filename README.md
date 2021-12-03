@@ -6,5 +6,6 @@ Different versions in branches.
 
 ## How to use
 ```
-ruby directory.rb <csvfile> (csv file optional for auto loading the list"
+ruby directory.rb <csvfile>
 ```
+\<csvfile\> is optional for auto loading a saved list
