@@ -25,7 +25,7 @@ def print_header
 end
 
 # prints students' names
-def print(names)
+def print_students_list(names)
   names.each { |student_profile|
     puts "#{student_profile[:name]} (#{student_profile[:cohort]} cohort)"
   }
@@ -38,15 +38,15 @@ end
 
 def show_students
   print_header
-  print(@students)
+  print_students_list(@students)
   print_footer(@students)
 end
 
 # prints options for interactive menu
 def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "9. Exit"
+  puts "--- 1. Input the students"
+  puts "--- 2. Show the students"
+  puts "--- 9. Exit"
 end
 
 def process(selection)
