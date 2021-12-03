@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 
 # prints options for interactive menu
@@ -64,7 +65,7 @@ def input_students_mode
 end
 
 def load_file(filename)
-    file_lines = File.open(filename, "r") { |file| file.readlines}
+    file_lines = File.open(filename, "r") { |file| file.readlines }
     file_lines.each { |csv_line| name, cohort = csv_line.split(","); add_student(name, cohort) }
 end
 
@@ -117,16 +118,12 @@ def print_footer(names)
 end
 
 def save_students(filename = 'students.csv')
-  #open the csv file
-  file = File.open(filename, "w")
-  #make a loop for each students to be added to the csv file in format 'name,cohort'
-  @students.each { |student_profile|
-    student_data = [student_profile[:name], student_profile[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
-  }
-  #close file
-  file.close
+  CSV.open(filename, "wb") do |csv|
+    #make a loop for each students to be added to the csv file in format 'name,cohort'
+    @students.each { |student_profile|
+      csv << [student_profile[:name], student_profile[:cohort]]
+    }
+  end
 end
 
 def ask_for_filename
